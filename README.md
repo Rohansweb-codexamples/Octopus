@@ -12,7 +12,7 @@ The app currently works locally in the browser. To enable accounts and cross-dev
 1. Create a Supabase project.
 2. Open **SQL Editor** and run `supabase/schema.sql`.
 3. Copy `config.example.js` to `app-config.js` and enter your Supabase Project URL and anon/publishable key.
-4. Add `<script src="./app-config.js"></script>` before the main app script in `index.html`.
+4. Edit the committed `app-config.js` file with your project URL and public anon/publishable key. The app loads it automatically.
 5. Commit and redeploy. Never put a Supabase service-role key in browser code.
 
 Supabase Auth stores accounts; Postgres stores presentation data and links. The SQL uses row-level security so users can only read and edit their own presentations. A separate, explicitly published read-only sharing policy/RPC should be added before enabling public audience links. Do not expose private presentation rows to anonymous users.
