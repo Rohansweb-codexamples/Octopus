@@ -5,11 +5,12 @@ create table if not exists public.presentations (
   user_id uuid not null references auth.users(id) on delete cascade,
   title text not null default 'Untitled presentation',
   slides jsonb not null default '[]'::jsonb,
+  is_public boolean not null default false,
   updated_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
 alter table public.presentations enable row level security;
-create policy "Owners can read presentations" on public.presentations for select using (auth.uid() = user_id);
+create policy "Owners and viewers can read presentations" on public.presentations for select using (auth.uid() = user_id or is_public = true);
 create policy "Owners can create presentations" on public.presentations for insert with check (auth.uid() = user_id);
 create policy "Owners can update presentations" on public.presentations for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "Owners can delete presentations" on public.presentations for delete using (auth.uid() = user_id);
